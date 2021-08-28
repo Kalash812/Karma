@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:hacker_kernel/auth%20/controllers/auth_controller.dart';
+import 'package:hacker_kernel/auth%20/controllers/profile_page_controller.dart';
 import 'package:hacker_kernel/widgets/custom_input_field.dart';
 
 class LoginView extends GetView<AuthController> {
@@ -60,10 +61,40 @@ class LoginView extends GetView<AuthController> {
                       SizedBox(
                         height: Get.height * 0.06,
                       ),
-                      CustomInputField(
-                        controller: passwordController,
+                      Container(
                         width: Get.width * 0.8,
-                        hintText: 'Password',
+                        decoration: new BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Color.fromRGBO(238, 238, 238, 1),
+                          shape: BoxShape.rectangle,
+                        ),
+                        child: GetBuilder<ProfilePageController>(
+                            builder: (controller) {
+                          return TextFormField(
+                            obscureText: controller.isChecked.value,
+                            textAlign: TextAlign.start,
+                            decoration: new InputDecoration(
+                                hintText: 'Password',
+                                contentPadding:
+                                    EdgeInsets.only(left: 20, top: 10),
+                                hintStyle: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.black87,
+                                ),
+                                border: InputBorder.none,
+                                suffixIcon: IconButton(
+                                  color: Color.fromRGBO(255, 133, 0, 1),
+                                  autofocus: false,
+                                  onPressed: () {
+                                    controller.isChecked.toggle();
+                                    controller.update();
+                                  },
+                                  icon: controller.isChecked.value
+                                      ? Icon(Icons.lock)
+                                      : Icon(Icons.lock_open),
+                                )),
+                          );
+                        }),
                       ),
                       SizedBox(
                         height: Get.height * 0.02,
